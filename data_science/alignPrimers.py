@@ -15,6 +15,8 @@ Type python3 alignPrimers.py -help to see the usage information.
 
 """
 
+print(__doc__)
+
 usage = "\n\tUSAGE: python3 alignPrimers.py [options]\n\n\
 	Script para alinhar primers em sequenicas alvo. Se houver nucleotideos diferentes de ACTG ou gaps, nao ira salvar o alinhamento no arquivo de saida.\n\n\
 	*** Argumentos obrigatorios:\n\
