@@ -27,7 +27,7 @@ AVISO: a versao atual deste script exige que pelo menos um dos arquivos de alinh
 Separadores de campo default:\npipe |\nespacos em branco (\s,\\t)\n'
 
 def concatenaAlinhamento(lista_arquivos, campo):
-	import subprocess, FormataFasta, re
+	import subprocess, formataFasta, re
 	numSeqsArquivos = []
 	alinhamentosConcatenados = []
 
@@ -53,7 +53,7 @@ def concatenaAlinhamento(lista_arquivos, campo):
 	file.close()
 
 	#formatar a sequencia fasta de alinhamento
-	arquivoGuiaFormatado = FormataFasta.SeqOneLine(arquivoGuia)
+	arquivoGuiaFormatado = formataFasta.SeqOneLine(arquivoGuia)
 	
 	for chave in arquivoGuiaFormatado.keys():
 		
@@ -73,7 +73,7 @@ def concatenaAlinhamento(lista_arquivos, campo):
 			file = open(arquivo,'r') # abre o arquivo de alinhamento atual
 			conteudoArquivo = file.readlines()
 			file.close()
-			conteudoArquivoFormatado = FormataFasta.SeqOneLine(conteudoArquivo) # formata o arquivo de alinhamento atual.
+			conteudoArquivoFormatado = formataFasta.SeqOneLine(conteudoArquivo) # formata o arquivo de alinhamento atual.
 
 			# vamos buscar exatamente o nome da especie dentro do arquivo de sequencias atual. Usar match literal.
 			find = False # controla se encontrou a sequencia da especie em determiando arquivo (conteudoArquivoFormatado). Importante para adicionar gaps no alinhamento concatenado, caso nao entre a sequencia no determinado arquivo.
