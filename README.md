@@ -17,6 +17,7 @@ Repository containing most of my Python scripts for a range of Bioinformatic tas
         * extractseq.py
         * findStopCodons.py
         * formataFasta.py
+        * seqsAleatorias.py
         
         
         
