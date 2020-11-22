@@ -12,6 +12,9 @@ Repository containing most of my Python scripts for a range of Bioinformatic tas
         * concatAlignments.py
         
       - Fasta files
-        * extraiSeqFastaIDs.py
-        * formataFasta.py
         * dropSequences.py
+        * extraiSeqFastaIDs.py
+        * extractseq.py
+        * formataFasta.py
+        
+        
