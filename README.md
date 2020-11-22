@@ -20,5 +20,5 @@
         * __getSeqFromCoord.py__ (extract fasta sequences from a GFF3 file or a generic coordinate file)
         * __seqsAleatorias.py__ (retrieve n random sequences from a multifasta file)
         
-        
-        
+      - Genomics
+        * __genomeMetricsExonsIntrons.py__ (Analyzes the distribution of size of introns/exons and the number of introns/exons in a GFF3 file.)
