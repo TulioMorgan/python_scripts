@@ -1,6 +1,6 @@
 ## Python Scripts
 
-### Repository containing most of my Python scripts for a range of Bioinformatic tasks.
+### Repository containing some of my Python scripts for a range of Bioinformatic tasks.
 
   - Data science
       - multidimensional scaling and PCA
