@@ -15,7 +15,7 @@ USAGE: python3 extractseq.py <(multi)fasta file> <sequence ID>
 
 print(__doc__)
 
-import sys,re,FormataFasta
+import sys,re,formataFasta
  
 if len(sys.argv) != 3:
 	print("USAGE: python3 extractseq.py <arquivo multifasta formatado/desformatado> <nome do contig para extrair sequencia/subsequencia>")
@@ -28,7 +28,7 @@ else:
 	file.close()
 
 	print ('Corrigindo arquivo fasta...')
-	fasta_formatado = FormataFasta.SeqOneLine(arquivo) #chama a funcao SeqOneLine do script 'FormataFasta.py'
+	fasta_formatado = formataFasta.SeqOneLine(arquivo) #chama a funcao SeqOneLine do script 'FormataFasta.py'
 	print ('Arquivo fasta corrigido.')
 
 	counter = 0
