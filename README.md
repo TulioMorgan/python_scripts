@@ -17,7 +17,7 @@ Repository containing most of my Python scripts for a range of Bioinformatic tas
         * extractseq.py (report a sequence or a subsequence (search by sequence ID))
         * findStopCodons.py (report sequences without stop codons in-frame (or report all sequences but only until reaches the first stop codon in each one))
         * formataFasta.py (remove line breaks within each sequence in a multifasta file)
-        * __bold__seqsAleatorias.py (retrieve n random sequences from a multifasta file)
+        * __bold__seqsAleatorias.py__bold__ (retrieve n random sequences from a multifasta file)
         
         
         
