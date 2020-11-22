@@ -1,4 +1,4 @@
-Python Scripts
+## Python Scripts
 
 Repository containing most of my Python scripts for a range of Bioinformatic tasks.
 
