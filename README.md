@@ -19,6 +19,7 @@
         * __formataFasta.py__ (remove line breaks within each sequence in a multifasta file)
         * __getSeqFromCoord.py__ (extract fasta sequences from a GFF3 file or a generic coordinate file)
         * __seqsAleatorias.py__ (retrieve n random sequences from a multifasta file)
+        * __splitFasta.py__ (randomly divides a multifasta file into independent fasta files)
         
   - Genomics
       - genomic features
