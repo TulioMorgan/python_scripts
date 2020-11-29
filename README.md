@@ -10,6 +10,7 @@
       - Sequence alignments (align primers to target sequences, merge alignment files)
         * __alignPrimers.py__ (performs alignments between primers/probe and target seqeunces. Uses Exonerate v.2.2.0)
         * __concatAlignments.py__ (concatenate multiple sequence alignment files (fasta) for multi-gene phylogeny)
+        * __runExonerate.v2.py__ (Script to run to run Exonerate in parallel. I use it mainly to predict genes in new genome assemblies. Uses Exonerate v.2.2.0)
         
       - Fasta files
         * __dropSequences.py__ (drop nucleotide sequences that bear x % of undetermined or ambiguous characters (N, R, W, ...))
