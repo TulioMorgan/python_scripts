@@ -18,6 +18,7 @@
         * __findStopCodons.py__ (report sequences without stop codons in-frame (or report all sequences but only until reaches the first stop codon in each one))
         * __formataFasta.py__ (remove line breaks within each sequence in a multifasta file)
         * __getSeqFromCoord.py__ (extract fasta sequences from a GFF3 file or a generic coordinate file)
+        * __removeSmallSequences.py__ (Script to remove sequences with length less than a user-defined value (--comprimento integer))
         * __seqsAleatorias.py__ (retrieve n random sequences from a multifasta file)
         * __splitFasta.py__ (randomly divides a multifasta file into independent fasta files)
         
