@@ -26,3 +26,4 @@
         * __genomeMetricsExonsIntrons.py__ (Analyzes the distribution of size of introns/exons and the number of introns/exons in a GFF3 file.)
       - protein function prediction
         * __blastpAnnotation.py__ (analyzes all BLASTp/DIAMOND subject descriptions and retrieve the most likely annotation for each query (majority consensus))
+        * __interpro2Annotation.py__ (analyzes and filter the output of InterProScan. Print the protein identifier followed by all domain descriptions and coordinates)
