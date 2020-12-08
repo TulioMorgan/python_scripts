@@ -11,6 +11,7 @@
         * __alignPrimers.py__ (performs alignments between primers/probe and target seqeunces. Uses Exonerate v.2.2.0)
         * __concatAlignments.py__ (concatenate multiple sequence alignment files (fasta) for multi-gene phylogeny)
         * __runExonerate.v2.py__ (Script to run to run Exonerate in parallel. I use it mainly to predict genes in new genome assemblies. Uses Exonerate v.2.2.0)
+        * __pairwiseGlobalAlignment_sequenceIdentities.py__ (Script to perform global alignments. The input consists of a multifasta file.)
         
       - Fasta files
         * __dropSequences.py__ (drop nucleotide sequences that bear x % of undetermined or ambiguous characters (N, R, W, ...))
@@ -19,6 +20,7 @@
         * __findStopCodons.py__ (report sequences without stop codons in-frame (or report all sequences but only until reaches the first stop codon in each one))
         * __formataFasta.py__ (remove line breaks within each sequence in a multifasta file)
         * __getSeqFromCoord.py__ (extract fasta sequences from a GFF3 file or a generic coordinate file)
+        * __orderSequencesBySize.py__ (Script to order sequences in a multifasta file according to their sizes, from highest to lowest (default))
         * __removeSmallSequences.py__ (Script to remove sequences with length less than a user-defined value (--comprimento integer))
         * __seqsAleatorias.py__ (retrieve n random sequences from a multifasta file)
         * __splitFasta.py__ (randomly divides a multifasta file into independent fasta files)
