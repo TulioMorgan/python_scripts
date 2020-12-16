@@ -15,7 +15,7 @@ Type python3 pairwiseGlobalAlignment_sequenceIdentities.py -help to see the inst
 
 print(__doc__)
 
-usage = "\n\tUSAGE: python3 pairwiseGlobalAlignment_sequenceIdentities.py [options]\n\n\
+usage = "\n\tUSAGE: python3 pairwiseGlobalAlignmentParallel_sequenceIdentities.py [options]\n\n\
 	*** Argumentos obrigatorios:\n\
 		--sequences <arquivo fasta> (arquivo de sequencias para alinhamentos)\n\
 		--cpus <integer> (numero de CPUs para executar alinhamentos)\n\n\
@@ -73,14 +73,13 @@ def loopAlinhamento(cpus, fasta_selected, cutoff_identidade):
 		# salva o ID e a sequencia da proteina Main
 		file.writelines(proteinMain)
 		file.close()
-		#print(fasta_selected)
+
 		# remove a proteina principal do dicionario 'fasta_selected'. Nao devo alinhar ela com ela mesma.
 		fasta_selected.remove(proteinMain)
-		#print(fasta_selected)
+
 		# adiciona-la no dicionario de proteinas Main
 		proteinMain = proteinMain.split('\n')
 		dict_proteinas_main[proteinMain[0]] = proteinMain[1]
-		#print(dict_proteinas_main)
 
 		# quebrar a lista 'fasta_selected' em numero de arquivos de acordo com o numero de processadores requisitados.
 		# primeiro avalia se o numero de sequencias é maior ou igual ao numero de cpus requisitados. Caso contrario, adequa o numero de cpus ao numero de sequencias.
@@ -90,31 +89,62 @@ def loopAlinhamento(cpus, fasta_selected, cutoff_identidade):
 		# elimina arquivos gerados do loop de alinhamento anterior.
 		subprocess.run(['rm temp_*_chunkID*'], shell = True, stdout = subprocess.PIPE, stderr=subprocess.PIPE)
 
-		# criacao dos arquivos de sequencias para alinhamento com a proteina main. Serao criados numero de aquivos igual ao numero de cpus requisitados, de modo que os alinhamentos sejam executados em paralelo.
+		# criacao dos arquivos de sequencias para alinhamento com a proteina main. Serao criados numero de aquivos igual ao numero de cpus requisitados, de modo que os alinhamentos sejam executados em paralelo.		
+		comprimento_original_fasta_selected = len(fasta_selected)
+		
 		nSplit = 1
-		while nSplit <= int(cpus):
-			#print('iteracao:',str(nSplit))
-			#print('cpus:',str(cpus))
+		while nSplit <= int(cpus) and len(fasta_selected) != 0:
+			if comprimento_original_fasta_selected % int(cpus) != 0 : # significa que nao vamos ter mesmo nuemro de sequenicas em todos os arquivos. O ultimo arquivo deve ficar com menos.
+				numSeqEachFile = comprimento_original_fasta_selected//(int(cpus)-1)
+				numSeqEachFile_resto = comprimento_original_fasta_selected % (int(cpus)-1)
+			else:
+				numSeqEachFile = comprimento_original_fasta_selected//int(cpus)
+				numSeqEachFile_resto = False
 
 			file = open('temp_sequences_chunkID'+str(nSplit), 'w')
 
-			# se necessário, o primeiro arquivo (nSplit == 1) ira receber mais sequencias. Isso ocorre quando o numero de sequencias e/ou numero de cpus é impar.
-			if nSplit == 1:
-				numSeqEachFile = (len(fasta_selected)//int(cpus)) + (len(fasta_selected)%int(cpus))
-			else:
-				numSeqEachFile = len(fasta_selected)//int(cpus)
-
-			# a variavel "numSeqEachFile" é o numero de sequencias em cada arquivo fasta
-			while numSeqEachFile:
+			if len(fasta_selected) == 1: # se so houver 1 sequencia na variavel ou se sobrou somente 1, salva-la em um arquivo
 				file.writelines(fasta_selected[0]+'\n')
 				seq_id = fasta_selected[0].split('\n')[0].lstrip('>')
 				tamanho = len(fasta_selected[0].split('\n')[1])
 				dict_lengths[seq_id] = tamanho
 				del fasta_selected[0]
-				numSeqEachFile -= 1
-			file.close()
-			nSplit += 1
-			#print(dict_lengths)
+				file.close()
+
+			# a variavel "numSeqEachFile" é o numero de sequencias em cada arquivo fasta. Vai entrar nesse if se nao houver numSeqEachFile_resto
+			elif nSplit <= int(cpus) and not numSeqEachFile_resto:
+				while numSeqEachFile:
+					file.writelines(fasta_selected[0]+'\n')
+					seq_id = fasta_selected[0].split('\n')[0].lstrip('>')
+					tamanho = len(fasta_selected[0].split('\n')[1])
+					dict_lengths[seq_id] = tamanho
+					del fasta_selected[0]
+					numSeqEachFile -= 1
+				file.close()
+				nSplit += 1
+
+			elif nSplit < int(cpus) and numSeqEachFile_resto: # essa sao todas as iteracoes para salvar as sequencias quando temos sequenicas de resto.
+				while numSeqEachFile:
+					file.writelines(fasta_selected[0]+'\n')
+					seq_id = fasta_selected[0].split('\n')[0].lstrip('>')
+					tamanho = len(fasta_selected[0].split('\n')[1])
+					dict_lengths[seq_id] = tamanho
+					del fasta_selected[0]
+					numSeqEachFile -= 1
+				file.close()
+				nSplit += 1
+
+			elif nSplit == int(cpus) and numSeqEachFile_resto: # essa eh a ultima iterecao para salvar os arquivos de resto
+				while numSeqEachFile_resto:
+					print(fasta_selected)
+					file.writelines(fasta_selected[0]+'\n')
+					seq_id = fasta_selected[0].split('\n')[0].lstrip('>')
+					tamanho = len(fasta_selected[0].split('\n')[1])
+					dict_lengths[seq_id] = tamanho
+					del fasta_selected[0]
+					numSeqEachFile_resto -= 1
+				file.close()
+				nSplit += 1
 
 		# chamada da funcao de alinhamento global par a par. A proteina main sera alinhada com cada proteina de cada arquivo fasta gerado no bloco anterior.
 		chunkid = 1
@@ -193,16 +223,24 @@ def loopAlinhamento(cpus, fasta_selected, cutoff_identidade):
 		new_fasta_selected = []
 		for ids in idsProteinasManter:
 			for elemento in list_all_sequences:
-				ID = elemento.split('\n')[0].lstrip('>')
+				ID = str(elemento.split('\n')[0].lstrip('>'))
 				if ids == ID:
 					new_fasta_selected.append(elemento)
-		#print('new_fasta_selected',new_fasta_selected)
+					break
+				# o needle faz truncagem de IDs, reportando apenas os caracteres ate o primeiro espaco em branco
+				ID = ID.split(' ')[0]
+				if ids == ID:
+					new_fasta_selected.append(elemento)
+					break
+		
 		# substitui o novo fasta_selected (com as sequencias nao redundantes comparadas com a proteinaMain) com o nome fasta_select, e volta para o while do inicio do script para selecionar nova proteinMain.
 		fasta_selected = new_fasta_selected
 
 		if len(fasta_selected) == 1: #so sobrou uma sequencia no 'fasta_selected' e essa sequencia eh boa, pois seu ID foi mantido ate aqui (nao eh redundante)
 			# adiciona-la no dicionario de proteinas Main
+			fasta_selected = ''.join(fasta_selected)
 			dict_proteinas_main[fasta_selected.split('\n')[0]] = fasta_selected.split('\n')[1]
+			break # quebra o "while len(fasta_selected) >= 2"
 
 	return dict_proteinas_main, resultados_sequencias_nao_redundantes, resultados_sequencias_Redundantes
 	
